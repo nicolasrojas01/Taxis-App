@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+
+<head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+        <script type="text/javascript" src="phonegap.js"></script>
+
+        <link rel="stylesheet" href="jquery/jquery.mobile-1.3.2.min.css" />
+        <script src="jquery/jquery-1.10.2.js"></script>
+        <script src="jquery/jquery.mobile-1.3.2.min.js"></script>
+        <title>PhoneGap 1</title>
+        
+       
+        
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?sensor=true">
+    </script>
+      <script type="text/javascript">
+      
+      document.addEventListener("deviceready", initialize, false);
+      
+        var marcador 
+        var map
+
+  function initialize() {
+      
+   
+      
+        var latlng = new google.maps.LatLng(4.7012, -74.0599);
+        var myOptions = {
+              zoom: 8,
+              center: latlng,
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              zoomControl: true
+        };
+
+        map = new google.maps.Map(document.getElementById("map-canvas"),
+              myOptions);
+		
+		
+        marcador = new google.maps.Marker( {
+		              position: latlng,
+		              map:map	
+	       })
+	
+        navigator.geolocation.getCurrentPosition( lecturaGPS , errorGPS , {enableHighAccuracy:true} )  
+	
+  }
+
+      
+  function mostrarUbicacion(){
+		  navigator.geolocation.getCurrentPosition( lecturaGPS , errorGPS , {enableHighAccuracy:true} )  
+  }
+  
+  function lecturaGPS(ubicacion){
+	  
+	  var miubicacion = new google.maps.LatLng(ubicacion.coords.latitude, ubicacion.coords.longitude);
+	  
+	  map.setCenter(miubicacion)
+	  map.setZoom(17)
+	  marcador.setPosition(miubicacion)
+	  
+  }
+  
+  function errorGPS(){
+	  alert("No encuentro tu ubicación")
+  }
+    </script>
+</head>
+<body onload="initialize()">
+  <div data-role="page">
+    <div data-role="header"><center><h1>Taxis blancos app</h1></center></div>
+      <div data-role="content">
+        <div id="map-canvas"></div>
+        <br>
+        <br>
+         <center>
+          <form action="" method="">
+            <label for="direccion"> Ingrese su dirección: </label>
+            <input type="text" id="direccion" name="direccion">
+          </form>
+        </center>
+        <br>
+        <center><button data-role="button" onClick="mostrarUbicacion()">Recógeme aqui!</button></center>
+
+      </div>
+  </div>
+</body>
+
